@@ -1,0 +1,155 @@
+import java.util.Scanner;
+
+public class ATMProgram {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        double saldo = 100000.0; // saldo awal
+        int pilihan;
+
+        do {
+            // Menu ATM
+            System.out.println("----- ATM Menu -----");
+            System.out.println("1. Tarik Tunai");
+            System.out.println("2. Cek Saldo");
+            System.out.println("3. Setor Tunai");
+            System.out.println("4. Transfer");
+            System.out.println("5. Belanja");
+            System.out.println("6. Keluar");
+            System.out.print("Pilih menu (1-6): ");
+            pilihan = scanner.nextInt();
+
+            switch (pilihan) {
+                case 1:
+                    // Tarik Tunai
+                    System.out.print("Masukkan jumlah yang ingin ditarik: ");
+                    double tarik = scanner.nextDouble();
+                    if (tarik > saldo) {
+                        System.out.println("Saldo tidak mencukupi.");
+                    } else {
+                        saldo -= tarik;
+                        System.out.println("Penarikan berhasil. Saldo sekarang: " + saldo);
+                    }
+                    break;
+                case 2:
+                    // Cek Saldo
+                    System.out.println("Saldo Anda saat ini: " + saldo);
+                    break;
+                case 3:
+                    // Setor Tunai
+                    System.out.print("Masukkan jumlah yang ingin disetor: ");
+                    double setor = scanner.nextDouble();
+                    saldo += setor;
+                    System.out.println("Setor tunai berhasil. Saldo sekarang: " + saldo);
+                    break;
+                case 4:
+                    // Transfer
+                    System.out.println("----- Transfer -----");
+                    System.out.println("1. Transfer Sesama Bank");
+                    System.out.println("2. Transfer Bukan Sesama Bank");
+                    System.out.print("Pilih jenis transfer (1-2): ");
+                    int jenisTransfer = scanner.nextInt();
+
+                    System.out.print("Masukkan nomor rekening tujuan (6 digit): ");
+                    String noRekening = scanner.next();
+
+                    if (noRekening.length() != 6 || !noRekening.matches("\\d+")) {
+                        System.out.println("Nomor rekening harus 6 digit angka.");
+                        break;
+                    }
+
+                    System.out.print("Masukkan jumlah yang ingin ditransfer: ");
+                    double transfer = scanner.nextDouble();
+
+                    if (jenisTransfer == 1) {
+                        // Transfer Sesama Bank
+                        if (transfer > saldo) {
+                            System.out.println("Saldo tidak mencukupi untuk transfer.");
+                        } else {
+                            saldo -= transfer;
+                            System.out.println("Transfer berhasil. Saldo sekarang: " + saldo);
+                        }
+                    } else if (jenisTransfer == 2) {
+                        // Transfer Bukan Sesama Bank dengan biaya potongan 2000
+                        double biayaPotongan = 2000;
+                        if (transfer + biayaPotongan > saldo) {
+                            System.out.println("Saldo tidak mencukupi untuk transfer.");
+                        } else {
+                            saldo -= (transfer + biayaPotongan);
+                            System.out.println("Transfer berhasil dengan biaya potongan 2000. Saldo sekarang: " + saldo);
+                        }
+                    } else {
+                        System.out.println("Pilihan jenis transfer tidak valid.");
+                    }
+                    break;
+                case 5:
+                    // Belanja
+                    int belanjaPilihan;
+                    do {
+                        System.out.println("----- Menu Belanja -----");
+                        System.out.println("1. TopUp Dana");
+                        System.out.println("2. Beli Pulsa");
+                        System.out.println("3. Isi Token Listrik");
+                        System.out.println("4. Kembali ke Menu Utama");
+                        System.out.print("Pilih menu belanja (1-4): ");
+                        belanjaPilihan = scanner.nextInt();
+
+                        switch (belanjaPilihan) {
+                            case 1:
+                                // Top Up Saldo Dana
+                                System.out.print("Masukkan jumlah top up: ");
+                                double topUp = scanner.nextDouble();
+                                if (topUp > saldo) {
+                                    System.out.println("Saldo tidak mencukupi untuk top up.");
+                                } else {
+                                    saldo -= topUp;
+                                    System.out.println("Top up berhasil. Saldo sekarang: " + saldo);
+                                }
+                                break;
+                            case 2:
+                                // Beli Pulsa
+                                System.out.print("Masukkan jumlah pulsa yang ingin dibeli: ");
+                                double pulsa = scanner.nextDouble();
+                                double biayaAdminPulsa = 1500;
+                                if (pulsa + biayaAdminPulsa > saldo) {
+                                    System.out.println("Saldo tidak mencukupi untuk beli pulsa.");
+                                } else {
+                                    saldo -= (pulsa + biayaAdminPulsa);
+                                    System.out.println("Pembelian pulsa berhasil dengan admin 1500. Saldo sekarang: " + saldo);
+                                }
+                                break;
+                            case 3:
+                                // Isi Token Listrik
+                                System.out.print("Masukkan jumlah token listrik yang ingin dibeli: ");
+                                double token = scanner.nextDouble();
+                                double biayaAdminToken = 1500;
+                                if (token + biayaAdminToken > saldo) {
+                                    System.out.println("Saldo tidak mencukupi untuk beli token listrik.");
+                                } else {
+                                    saldo -= (token + biayaAdminToken);
+                                    System.out.println("Pembelian token listrik berhasil dengan admin 1500. Saldo sekarang: " + saldo);
+                                }
+                                break;
+                            case 4:
+                                // Kembali ke Menu Utama
+                                System.out.println("Kembali ke menu utama...");
+                                break;
+                            default:
+                                System.out.println("Pilihan tidak valid. Silakan pilih menu 1-4.");
+                        }
+                        System.out.println(); // Spasi antar output
+                    } while (belanjaPilihan != 4);
+                    break;
+                case 6:
+                    // Keluar
+                    System.out.println("Terima kasih telah mempercayai kami.");
+                    break;
+                default:
+                    System.out.println("Pilihan tidak valid. Silakan pilih menu 1-6.");
+            }
+
+            System.out.println(); // Spasi antar output
+        } while (pilihan != 6);
+
+        scanner.close();
+    }
+}
